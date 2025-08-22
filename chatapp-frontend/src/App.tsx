@@ -1,6 +1,10 @@
 import React,{useState} from 'react';
 import Chat from './components/Chat';
-import { ChatBubbleLeftIcon } from '@heroicons/react/24/outline';
+import { ChatBubbleLeftIcon, SparklesIcon } from '@heroicons/react/24/outline';
+
+const gradientBg = 'bg-gradient-to-br from-pink-400 via-purple-400 to-blue-400';
+const glassBg = 'bg-white/70 backdrop-blur-lg shadow-2xl border border-white/30';
+
 const App: React.FC = () => {
   const [username,setUsername]=useState<string>('');
   const [roomId, setRoomId] = useState<number>(1);
@@ -11,51 +15,50 @@ const App: React.FC = () => {
     }
   };
   const handleLogout = () => {
-  console.log('App: handleLogout called (before state change)');
-  setIsLoggedIn(false);
-  setUsername('');
-  console.log('App: state after logout requested, isLoggedIn should be false');
+    setIsLoggedIn(false);
+    setUsername('');
   };
   if(!isLoggedIn){
     return (
-      <div className='flex items-center justify-center h-screen bg-gray-100'>
-        <div className='p-8 bg-white rounded-lg shadow-xl w-full sm:w-96'>
-            <h1 className='text-3xl font-semibold text-center mb-6 flex items-center justify-center space-x-2'>
-              <ChatBubbleLeftIcon className='w-8 h-8 text-orange-500' />
-              <span className='text-xl'>
-                Welcome to the Chat App!
-              </span>
-            </h1>
-            <label className='text-sm text-gray-600 block mb-2'>Room ID (e.g. 1)</label>
-            <input
-              type='number'
-              value={roomId}
-              onChange={(e) => {
-                // ensure integer and min 1
-                const val = Math.max(1, Math.floor(Number(e.target.value) || 1));
-                setRoomId(val);
-              }}
-              placeholder='Room ID (e.g.: 1)'
-              aria-label='Enter Room ID'
-              className='w-full p-3 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-300'
-            />
-            <label className='text-sm text-gray-600 block mb-2'>Username</label>
-            <input
-              type='text'
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              placeholder='Enter your name'
-              aria-label='Enter name'
-              className='w-full p-3 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-300'
-              onKeyDown={handleKeyDown}
-            />
-            <button 
+      <div className={`flex items-center justify-center min-h-screen ${gradientBg}`}>
+        <div className={`p-8 rounded-2xl ${glassBg} w-full sm:w-96 relative animate__animated animate__fadeInDown`}>
+          <div className='absolute -top-8 left-1/2 -translate-x-1/2 flex items-center justify-center'>
+            <SparklesIcon className='w-12 h-12 text-yellow-400 drop-shadow-lg animate-bounce' />
+          </div>
+          <h1 className='text-4xl font-extrabold text-center mb-6 flex items-center justify-center space-x-2 bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 bg-clip-text text-transparent'>
+            <ChatBubbleLeftIcon className='w-10 h-10 text-orange-500 drop-shadow' />
+            <span className='text-2xl'>Welcome to <span className='font-black'>ChatApp</span>!</span>
+          </h1>
+          {/* Xóa dòng slogan màu mè */}
+          <label className='text-sm text-gray-700 block mb-2 font-bold'>Room ID</label>
+          <input
+            type='number'
+            value={roomId}
+            onChange={(e) => {
+              const val = Math.max(1, Math.floor(Number(e.target.value) || 1));
+              setRoomId(val);
+            }}
+            placeholder='Room ID (e.g.: 1)'
+            aria-label='Enter Room ID'
+            className='w-full p-3 border border-purple-300 rounded-xl mb-4 focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink-300 bg-white/80'
+          />
+          <label className='text-sm text-gray-700 block mb-2 font-bold'>Username</label>
+          <input
+            type='text'
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            placeholder='Enter your name'
+            aria-label='Enter name'
+            className='w-full p-3 border border-purple-300 rounded-xl mb-4 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-300 bg-white/80'
+            onKeyDown={handleKeyDown}
+          />
+          <button 
             disabled={username.trim() === ''}
-            onClick={() => setIsLoggedIn(true)} className='w-full p-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600'>
-              Join Chat
-            </button>
+            onClick={() => setIsLoggedIn(true)}
+            className='w-full p-3 bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-white rounded-xl font-bold shadow-lg hover:scale-105 transition-all duration-200'>
+            🚀 Join Chat
+          </button>
         </div>
-        
       </div>
     )
   }
